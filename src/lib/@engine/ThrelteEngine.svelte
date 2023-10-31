@@ -1,10 +1,10 @@
 <script>
-    import {Canvas} from '@threlte/core'
-    import {useProgress} from '@threlte/extras'
+    import {Canvas, T} from '@threlte/core'
+    import {useProgress, OrbitControls} from '@threlte/extras'
     import {World, Debug} from '@threlte/rapier'
     import {Gui, guiStores} from '../@gui/index' 
 
-    let controls = guiStores({
+    export let controls = guiStores({
         debug : true,
     })
 
@@ -14,7 +14,7 @@
 {#if $progress < 1}
     <slot name="LOADING">
         <div class="wrapper">
-
+            <p>Loading</p>
         </div>
     </slot>
 {/if}
@@ -24,7 +24,15 @@
         {#if $controls.debug === true}
             <Debug/>
         {/if}
-        <slot name="SCENE"/>
+        <slot name="SCENE">
+            <T.PerpectiveCamera makeDefault position={[0, 10, 13]} fov={20}>
+                <OrbitControls/>
+            </T.PerpectiveCamera>
+            <T.Mesh>
+                <T.MeshStandardMaterial/>
+                <T.BoxGeometry/>
+            </T.Mesh>
+        </slot>
     </World>
 </Canvas>
 
